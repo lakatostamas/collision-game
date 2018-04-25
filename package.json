@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,24 @@
     "url": "https://github.com/lakatostamas/collision-game/issues"
   },
   "homepage": "https://github.com/lakatostamas/collision-game#readme",
+  "jest": {
+    "testRegex": "./tests/.*.js$",
+    "modulePaths": [
+      "src"
+    ],
+    "testPathIgnorePatterns": [
+      "./node_modules/"
+    ]
+  },
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
     "copy-webpack-plugin": "^4.5.0",
+    "eslint": "^4.19.1",
+    "jest": "^22.4.3",
+    "regenerator-runtime": "^0.11.1",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.10"
   }
