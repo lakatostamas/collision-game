@@ -2,6 +2,8 @@ import Ship from './Ship';
 import Drawer from './Drawer';
 import ShipReducer from './ShipReducer';
 
+const validMoveKeyCodes = [37, 38, 39];
+
 export default class Game {
   constructor() {
     this.canvas = document.querySelector('canvas');
@@ -19,14 +21,19 @@ export default class Game {
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
 
+  isValidKeyCode(keyCode) {
+    return validMoveKeyCodes.includes(keyCode);
+  }
+
   onKeyDown({ keyCode }) {
+    if (!this.isValidKeyCode(keyCode)) {
+      return;
+    }
     const isContained = this.keys.includes(keyCode);
 
     if(!isContained) {
       this.keys.push(keyCode);
     }
-
-    this.move();
   }
 
   onKeyUp({ keyCode }) {
@@ -44,11 +51,12 @@ export default class Game {
   }
 
   renderGame() {
-    this.move();
     this.ship.position = ShipReducer({
-      keyCode: 10,
+      keyCode: 0,
       currentPosition: this.ship.position
     });
+
+    this.move();
     this.drawer.drawShip(this.ship.position);
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
