@@ -25,7 +25,10 @@ export default class Game {
     return validMoveKeyCodes.includes(keyCode);
   }
 
-  onKeyDown({ keyCode }) {
+  onKeyDown(ev) {
+    ev.preventDefault();
+    const { keyCode } = ev;
+
     if (!this.isValidKeyCode(keyCode)) {
       return;
     }
@@ -36,8 +39,11 @@ export default class Game {
     }
   }
 
-  onKeyUp({ keyCode }) {
+  onKeyUp(ev) {
+    ev.preventDefault();
+    const { keyCode } = ev;
     const index = this.keys.findIndex(code => keyCode === code);
+
     this.keys = [...this.keys.slice(0, index) ,...this.keys.slice(index + 1)];
   }
 
