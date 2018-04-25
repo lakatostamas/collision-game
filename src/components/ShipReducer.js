@@ -6,19 +6,19 @@ export default function shipReducer({ keyCode, currentPosition }) {
   switch(keyCode) {
     case 37:
       return Object.assign({}, currentPosition, {
-        x: x + velocityX,
-        y: y + velocityY,
+        x: x + velocityX / 5,
+        y: y + velocityY / 5,
         velocityX: velocityX * inertia,
         velocityY: velocityY * inertia,
-        rotation: rotation - 1,
+        rotation: rotation - 4,
       });
     case 39:
       return Object.assign({}, currentPosition, {
-        x: x + velocityX,
-        y: y + velocityY,
+        x: x + velocityX / 5,
+        y: y + velocityY / 5,
         velocityX: velocityX * inertia,
         velocityY: velocityY * inertia,
-        rotation: rotation + 1,
+        rotation: rotation + 4,
       });
     case 38:
       velocityX += Math.sin(-rotation * Math.PI / 180) * speed;
