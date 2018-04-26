@@ -1,6 +1,8 @@
 import Ship from './Ship';
+import Asteroid from './Asteroid';
 import Drawer from './Drawer';
 import ShipReducer from './ShipReducer';
+import AsteroidReducer from './AsteroidReducer';
 
 const validMoveKeyCodes = [37, 38, 39];
 
@@ -17,6 +19,7 @@ export default class Game {
     this.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
     this.keys = [];
     this.ship = new Ship();
+    this.asteroid = new Asteroid();
 
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
@@ -32,6 +35,7 @@ export default class Game {
     if (!this.isValidKeyCode(keyCode)) {
       return;
     }
+
     const isContained = this.keys.includes(keyCode);
 
     if(!isContained) {
@@ -54,6 +58,9 @@ export default class Game {
         currentPosition: position,
       })
     }, this.ship.position);
+    this.asteroid.position = AsteroidReducer({
+      currentPosition: this.asteroid.position,
+    });
   }
 
   renderGame() {
@@ -64,6 +71,7 @@ export default class Game {
 
     this.move();
     this.drawer.drawShip(this.ship.position);
+    this.drawer.drawAsteroid(this.asteroid.position);
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
 }
