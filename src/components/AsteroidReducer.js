@@ -6,14 +6,12 @@ export default function asteroidReducer({ currentPosition }) {
   velocityX += Math.sin(-rotation * Math.PI / 180) * speed;
   velocityY += Math.cos(-rotation * Math.PI / 180) * speed;
 
-  console.log(velocityX, velocityY, rotation);
-
   return Object.assign({}, currentPosition, {
     x: x + velocityX,
     y: y + velocityY,
     velocityX,
     velocityY,
-    rotation: Math.random() > 0.5 ? -20 : 20,
+    rotation,
   });
 }
 

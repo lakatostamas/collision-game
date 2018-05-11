@@ -19,7 +19,7 @@ export default class Game {
     this.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
     this.keys = [];
     this.ship = new Ship();
-    this.asteroid = new Asteroid();
+    this.asteroids = [...Array(10)].map(() => new Asteroid());
 
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
@@ -58,8 +58,13 @@ export default class Game {
         currentPosition: position,
       })
     }, this.ship.position);
-    this.asteroid.position = AsteroidReducer({
-      currentPosition: this.asteroid.position,
+
+    this.asteroids = this.asteroids.map(asteroid => {
+      return Object.assign({}, asteroid, {
+        position: AsteroidReducer({
+          currentPosition: asteroid.position,
+        }),
+      });
     });
   }
 
@@ -71,7 +76,10 @@ export default class Game {
 
     this.move();
     this.drawer.drawShip(this.ship.position);
-    this.drawer.drawAsteroid(this.asteroid.position);
+    this.asteroids.forEach(asteroid => {
+      return this.drawer.drawAsteroid(asteroid.position);
+    });
+
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
 }
