@@ -1,7 +1,7 @@
 import Ship from './Ship';
 import Asteroid from './Asteroid';
 import Drawer from './Drawer';
-import ShipReducer from './ShipReducer';
+import createShipReducer from './ShipReducer';
 import AsteroidReducer from './AsteroidReducer';
 
 const validMoveKeyCodes = [37, 38, 39];
@@ -12,6 +12,10 @@ export default class Game {
     this.context = this.canvas.getContext('2d');
     this.drawer = new Drawer(this.canvas);
     this.drawer.initializeCanvas();
+    this.shipReducer = createShipReducer({
+      mapWidth: this.canvas.width,
+      mapHeight: this.canvas.height
+    });
   }
 
   initialize() {
@@ -53,7 +57,7 @@ export default class Game {
 
   move() {
     this.ship.position = this.keys.reduce((position, keyCode) => {
-      return ShipReducer({
+      return this.shipReducer({
         keyCode,
         currentPosition: position,
       })
@@ -69,7 +73,7 @@ export default class Game {
   }
 
   renderGame() {
-    this.ship.position = ShipReducer({
+    this.ship.position = this.shipReducer({
       keyCode: 0,
       currentPosition: this.ship.position
     });
