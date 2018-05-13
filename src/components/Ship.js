@@ -8,5 +8,5 @@ export default class Ship {
       velocityY: 0,
     };
   }
-};
+}
 

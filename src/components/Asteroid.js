@@ -8,5 +8,5 @@ export default class Asteroid {
       velocityY: 0,
     };
   }
-};
+}
 
