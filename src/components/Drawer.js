@@ -15,12 +15,12 @@ export default class Drawer {
     this.canvas.height = window.innerHeight;
   }
 
-  drawShip({x, y, rotation}) {
+  drawShip({ x, y, rotation }) {
     this.initializeCanvas();
     this.context.save();
-    this.context.fillStyle = "#fff";
+    this.context.fillStyle = '#fff';
     this.context.translate(x, y);
-    this.context.rotate(rotation * Math.PI / 180);
+    this.context.rotate((rotation * Math.PI) / 180);
     this.context.beginPath();
     this.context.moveTo(0, 0);
     this.context.lineTo(50, 0);
@@ -29,7 +29,7 @@ export default class Drawer {
     this.context.restore();
   }
 
-  drawAsteroid({x, y, rotation}) {
+  drawAsteroid({ x, y }) {
     this.context.beginPath();
     this.context.arc(x, y, 10, 0, 2 * Math.PI, false);
     this.context.fillStyle = 'green';
