@@ -5,6 +5,10 @@ import createReducers from './RootReducer';
 
 const validMoveKeyCodes = [37, 38, 39];
 
+function isValidKeyCode(keyCode) {
+  return validMoveKeyCodes.includes(keyCode);
+}
+
 export default class Game {
   constructor() {
     this.canvas = document.querySelector('canvas');
@@ -15,7 +19,7 @@ export default class Game {
       width: this.canvas.width,
       height: this.canvas.height,
     });
- }
+  }
 
   initialize() {
     this.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
@@ -23,25 +27,20 @@ export default class Game {
     this.keys = [];
     this.ship = new Ship();
     this.asteroids = [...Array(10)].map(() => new Asteroid());
-
     window.requestAnimationFrame(this.renderGame.bind(this));
-  }
-
-  isValidKeyCode(keyCode) {
-    return validMoveKeyCodes.includes(keyCode);
   }
 
   onKeyDown(ev) {
     ev.preventDefault();
     const { keyCode } = ev;
 
-    if (!this.isValidKeyCode(keyCode)) {
+    if (!isValidKeyCode(keyCode)) {
       return;
     }
 
     const isContained = this.keys.includes(keyCode);
 
-    if(!isContained) {
+    if (!isContained) {
       this.keys.push(keyCode);
     }
   }
@@ -51,37 +50,35 @@ export default class Game {
     const { keyCode } = ev;
     const index = this.keys.findIndex(code => keyCode === code);
 
-    this.keys = [...this.keys.slice(0, index) ,...this.keys.slice(index + 1)];
+    this.keys = [...this.keys.slice(0, index), ...this.keys.slice(index + 1)];
   }
 
   move() {
-    this.ship.position = this.keys.reduce((position, keyCode) => {
-      return this.reducer('ship', {
+    this.ship.position = this.keys.reduce((position, keyCode) => (
+      this.reducer('ship', {
         keyCode,
         currentPosition: position,
       })
-    }, this.ship.position);
+    ), this.ship.position);
 
-    this.asteroids = this.asteroids.map(asteroid => {
-      return Object.assign({}, asteroid, {
+    this.asteroids = this.asteroids.map(asteroid => (
+      Object.assign({}, asteroid, {
         position: this.reducer('asteroid', {
           currentPosition: asteroid.position,
         }),
-      });
-    });
+      })
+    ));
   }
 
   renderGame() {
     this.ship.position = this.reducer('ship', {
       keyCode: 0,
-      currentPosition: this.ship.position
+      currentPosition: this.ship.position,
     });
 
     this.move();
     this.drawer.drawShip(this.ship.position);
-    this.asteroids.forEach(asteroid => {
-      return this.drawer.drawAsteroid(asteroid.position);
-    });
+    this.asteroids.forEach(asteroid => this.drawer.drawAsteroid(asteroid.position));
 
     window.requestAnimationFrame(this.renderGame.bind(this));
   }
