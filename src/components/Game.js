@@ -33,16 +33,13 @@ export default class Game {
   onKeyDown(ev) {
     ev.preventDefault();
     const { keyCode } = ev;
+    const isContained = this.keys.includes(keyCode);
 
-    if (!isValidKeyCode(keyCode)) {
+    if (!isValidKeyCode(keyCode) || isContained) {
       return;
     }
 
-    const isContained = this.keys.includes(keyCode);
-
-    if (!isContained) {
-      this.keys.push(keyCode);
-    }
+    this.keys.push(keyCode);
   }
 
   onKeyUp(ev) {
