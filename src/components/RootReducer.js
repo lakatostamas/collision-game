@@ -18,7 +18,7 @@ function calculateCord(position, border) {
   return position;
 }
 
-function adjustNextPosition({ width, height}, nextPosition) {
+function adjustNextPosition({ width, height }, nextPosition) {
   const { x, y } = nextPosition;
   const adjustedX = calculateCord(x, width);
   const adjustedY = calculateCord(y, height);
@@ -33,6 +33,6 @@ export default function createReducers(borders) {
   return (type, payload) => {
     const nextPosition = reducers[type](payload);
     return adjustNextPosition(borders, nextPosition);
-  }
+  };
 }
 
