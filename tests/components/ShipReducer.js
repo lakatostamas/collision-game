@@ -1,4 +1,4 @@
-import ShipReducer from 'components/ShipReducer';
+import ShipReducer from '../../src/components/ShipReducer';
 
 const testPositions = {
   x: 0,
@@ -6,7 +6,7 @@ const testPositions = {
   velocityX: 0,
   velocityY: 0,
   rotation: 0,
-}
+};
 
 test('it returns the original object if the keyCode is invalid', () => {
   expect(ShipReducer({
@@ -44,7 +44,7 @@ test('it moves the ship left', () => {
     y: 0,
     velocityX: 0,
     velocityY: 0,
-    rotation: -1,
+    rotation: -4,
   });
 });
 
@@ -57,6 +57,6 @@ test('it moves the ship right', () => {
     y: 0,
     velocityX: 0,
     velocityY: 0,
-    rotation: 1,
+    rotation: 4,
   });
 });
