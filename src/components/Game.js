@@ -1,5 +1,6 @@
 import Ship from './Ship';
 import Asteroid from './Asteroid';
+import Bullet from './Bullet';
 import Drawer from './Drawer';
 import createReducers from './RootReducer';
 
@@ -27,13 +28,22 @@ export default class Game {
     this.keys = [];
     this.ship = new Ship();
     this.asteroids = [...Array(10)].map(() => new Asteroid());
+    this.bullets = [];
     window.requestAnimationFrame(this.renderGame.bind(this));
+  }
+
+  handleFire() {
+    this.bullets = [...this.bullets, new Bullet(this.ship.position)];
   }
 
   onKeyDown(ev) {
     ev.preventDefault();
     const { keyCode } = ev;
     const isContained = this.keys.includes(keyCode);
+
+    if (keyCode === 32) {
+      this.handleFire();
+    }
 
     if (!isValidKeyCode(keyCode) || isContained) {
       return;
@@ -65,6 +75,14 @@ export default class Game {
         }),
       })
     ));
+
+    this.bullets = this.bullets.map(bullet => (
+      Object.assign({}, bullet, {
+        position: this.reducer('bullet', {
+          currentPosition: bullet.position,
+        }),
+      })
+    ));
   }
 
   renderGame() {
@@ -76,6 +94,7 @@ export default class Game {
     this.move();
     this.drawer.drawShip(this.ship.position);
     this.asteroids.forEach(asteroid => this.drawer.drawAsteroid(asteroid.position));
+    this.bullets.forEach(bullet => this.drawer.drawBullet(bullet.position));
 
     window.requestAnimationFrame(this.renderGame.bind(this));
   }

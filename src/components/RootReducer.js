@@ -1,9 +1,11 @@
 import ShipReducer from './ShipReducer';
 import AsteroidReducer from './AsteroidReducer';
+import BulletReducer from './BulletReducer';
 
 const reducers = {
   ship: ShipReducer,
   asteroid: AsteroidReducer,
+  bullet: BulletReducer,
 };
 
 function calculateCord(position, border) {

@@ -38,5 +38,15 @@ export default class Drawer {
     this.context.strokeStyle = '#003300';
     this.context.stroke();
   }
+
+  drawBullet({ x, y }) {
+    this.context.beginPath();
+    this.context.arc(x, y, 3, 0, 2 * Math.PI, false);
+    this.context.fillStyle = '#fff';
+    this.context.fill();
+    this.context.lineWidth = 5;
+    this.context.strokeStyle = '#fff';
+    this.context.stroke();
+  }
 }
 
