@@ -7,6 +7,7 @@ const reducers = {
   asteroid: AsteroidReducer,
   bullet: BulletReducer,
 };
+const excludeFromAdjust = ['bullet'];
 
 function calculateCord(position, border) {
   if (position > border) {
@@ -20,7 +21,11 @@ function calculateCord(position, border) {
   return position;
 }
 
-function adjustNextPosition({ width, height }, nextPosition) {
+function adjustNextPosition(type, { width, height }, nextPosition) {
+  if (excludeFromAdjust.includes(type)) {
+    return nextPosition;
+  }
+
   const { x, y } = nextPosition;
   const adjustedX = calculateCord(x, width);
   const adjustedY = calculateCord(y, height);
@@ -34,7 +39,7 @@ function adjustNextPosition({ width, height }, nextPosition) {
 export default function createReducers(borders) {
   return (type, payload) => {
     const nextPosition = reducers[type](payload);
-    return adjustNextPosition(borders, nextPosition);
+    return adjustNextPosition(type, borders, nextPosition);
   };
 }
 
