@@ -57,6 +57,10 @@ export default class Game {
     const { keyCode } = ev;
     const index = this.keys.findIndex(code => keyCode === code);
 
+    if (!isValidKeyCode(keyCode)) {
+      return;
+    }
+
     this.keys = [...this.keys.slice(0, index), ...this.keys.slice(index + 1)];
   }
 
